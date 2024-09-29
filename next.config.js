@@ -26,6 +26,7 @@ const moduleExports = {
       issuer: /\.(js|ts)x?$/,
       use: ['@svgr/webpack']
     })
+    config.resolve.fallback = { fs: false }
     return config
   }
 }

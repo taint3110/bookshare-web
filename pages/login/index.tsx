@@ -1,6 +1,6 @@
 import AuthenticationLayout from 'components/Layout/AuthenticationLayout'
-import AuthenticatePage from 'components/pages/CMS/AuthenticatePage'
-import { AuthenticatePageName, AuthenticatePageType } from 'components/pages/CMS/AuthenticatePage/constant'
+import AuthenticatePage from 'components/pages/AuthenticatePage'
+import { AuthenticatePageName, AuthenticatePageType } from 'components/pages/AuthenticatePage/constant'
 
 import { useState } from 'react'
 
