@@ -2,7 +2,9 @@ import { Box, Heading } from '@chakra-ui/react'
 import { NextRouter, useRouter } from 'next/router'
 import { useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import ForgotPassword from './components/ForgotPassword'
 import LoginForm from './components/LoginForm'
+import ResetPassword from './components/ResetPassword'
 import SignUpForm from './components/SignUpForm'
 import { AuthenticatePageName, AuthenticatePageTitle, AuthenticatePageType } from './constant'
 const loginBackground: string = 'assets/images/login-background.png'
@@ -55,6 +57,8 @@ const AuthenticatePage = (props: ILoginProps) => {
             </Heading>
           </Box>
           {pageType === AuthenticatePageType.LOGIN && <LoginForm setPageType={setPageType} />}
+          {pageType === AuthenticatePageType.FORGOT_PASSWORD && <ForgotPassword />}
+          {pageType === AuthenticatePageType.RESET_PASSWORD && <ResetPassword />}
           {pageType === AuthenticatePageType.SIGN_UP && <SignUpForm setPageType={setPageType} />}
         </Box>
       </Box>
