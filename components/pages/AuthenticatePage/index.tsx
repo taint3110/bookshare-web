@@ -17,7 +17,6 @@ export interface ILoginProps {
 const AuthenticatePage = (props: ILoginProps) => {
   const { type, setNamePage } = props
   const [pageType, setPageType] = useState<AuthenticatePageType | undefined>(type)
-  const router: NextRouter = useRouter()
   const isOverflow: boolean = useMediaQuery({ maxHeight: 810 })
   function getTitle(): string {
     switch (pageType) {
