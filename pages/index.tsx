@@ -12,10 +12,3 @@ const ListPage = (props: IListingPageProps) => {
 }
 
 export default observer(ListPage)
-
-export async function getServerSideProps(context: { query: any }) {
-  try {
-  } catch (error) {
-    console.log('listing-page: getServerSideProps -> error', error)
-  }
-}

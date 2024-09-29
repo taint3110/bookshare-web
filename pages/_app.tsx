@@ -9,19 +9,12 @@ import type { AppProps } from 'next/app'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-toastify/dist/ReactToastify.css'
-import { rootStore } from 'stores'
 import './styles.scss'
-
-const flagConfig = {
-  extraHttpHeaders: {
-    Authorization: process.env.REACT_APP_FLAGS_ACCESS_TOKEN
-  }
-}
 
 const App = (props: AppProps) => {
   const { Component, pageProps, router } = props
   return (
-    <Provider {...rootStore}>
+    <Provider>
       <CustomApp pageProps={pageProps} Component={Component} router={router} />
     </Provider>
   )
