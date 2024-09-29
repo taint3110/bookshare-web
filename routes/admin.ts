@@ -11,7 +11,7 @@ const adminRoutes = {
       value: '/admin/forgot-password'
     },
     resetPassword: {
-      value: (resetPasswordToken: string) => `/admin/reset-password/${resetPasswordToken}`
+      value: '/admin/reset-password'
     },
     accountSettings: {
       value: '/admin/account-settings'

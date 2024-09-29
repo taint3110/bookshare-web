@@ -14,7 +14,7 @@ const routes = {
     value: '/forgot-password'
   },
   resetPassword: {
-    value: (resetPasswordToken: string) => `/reset-password/${resetPasswordToken}`
+    value: '/reset-password'
   },
   notfoundpage: {
     value: '/404'
