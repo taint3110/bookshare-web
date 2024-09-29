@@ -27,7 +27,7 @@ const ResetPassword = () => {
       toast.error('Something wrong happened')
     } else {
       toast.success('Reset password successfully')
-      router.push(routes.cms.login.value)
+      router.push(routes.login.value)
     }
   }
 
