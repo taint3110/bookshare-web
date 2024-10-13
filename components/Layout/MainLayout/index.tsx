@@ -2,7 +2,6 @@ import Footer from 'components/Layout/Footer'
 import Header from 'components/Layout/Header'
 import { observer } from 'mobx-react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 
 interface IMainLayoutProps {
