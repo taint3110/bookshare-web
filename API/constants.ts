@@ -46,8 +46,3 @@ export interface Count {
 export interface IHeader {
   authorization?: string
 }
-
-export interface PaginationList<T> {
-  results: T[]
-  totalCount: number
-}

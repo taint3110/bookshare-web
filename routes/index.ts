@@ -20,7 +20,7 @@ const routes = {
     value: '/404'
   },
   detail: {
-    value: (bookId: number) => `/detail/${bookId}`
+    value: (productId: number) => `/detail/${productId}`
   },
   myProfile: {
     value: '/my-profile'

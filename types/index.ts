@@ -3,7 +3,10 @@ export type CommonError = any
 export type ICoordinate = [number, number]
 export interface PaginationList<T> {
   results: T[]
-  totalCount: number
+  count?: number | null
+  pageSize?: number | null
+  pageIndex?: number | null
+  totalPages?: number | null
 }
 
 declare global {
