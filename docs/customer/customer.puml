@@ -1,0 +1,42 @@
+@startuml
+
+' Login/Register Flow
+actor Customer
+participant Website
+participant AuthService
+
+Customer -> Website: Enter email & password / Google login
+Website -> AuthService: Send credentials for verification
+AuthService --> Website: Return success/failure
+Website -> Customer: Redirect to dashboard/homepage (if success)
+
+== Product Search and View Flow ==
+Customer -> Website: Search product / Apply filters
+Website -> Database: Query products matching criteria
+Database --> Website: Return product list
+Website -> Customer: Display product list
+Customer -> Website: Select product to view details
+Website -> Database: Fetch product details
+Database --> Website: Return product details
+Website -> Customer: Display product details
+
+== Add to Cart Flow ==
+Customer -> Website: Select variant and add to cart
+Website -> Database: Update cart with selected item
+Database --> Website: Confirm cart update
+Website -> Customer: Show updated cart information
+
+== Checkout and Payment Flow ==
+Customer -> Website: Proceed to checkout and review items
+Website -> Customer: Display total and shipping options
+Customer -> Website: Select payment method
+Website -> PaymentGateway: Send payment information
+PaymentGateway --> Website: Return success/failure
+alt Payment Success
+    Website -> Database: Update order status
+    Website -> Customer: Show order confirmation
+else Payment Failure
+    Website -> Customer: Show payment failure message
+end
+
+@enduml

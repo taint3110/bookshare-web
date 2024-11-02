@@ -1,0 +1,48 @@
+@startuml
+
+' SuperAdmin - User Management Flow
+actor SuperAdmin
+participant Website
+participant Database
+
+SuperAdmin -> Website: Access User Management
+Website -> Database: Fetch list of users
+Database --> Website: Return user list
+Website -> SuperAdmin: Display user list
+SuperAdmin -> Website: Select user for details or action
+Website -> Database: Fetch user details
+Database --> Website: Return user details
+alt Action: Block/Delete User
+    SuperAdmin -> Website: Confirm block/delete user
+    Website -> Database: Update user status
+    Database --> Website: Confirm action
+    Website -> SuperAdmin: Display success message
+end
+
+== Vendor/Seller Approval Flow ==
+SuperAdmin -> Website: Access Vendor Approval Requests
+Website -> Database: Fetch pending vendor requests
+Database --> Website: Return vendor requests
+Website -> SuperAdmin: Display vendor requests
+SuperAdmin -> Website: Review vendor request and approve/reject
+Website -> Database: Update vendor status
+Database --> Website: Confirm status update
+Website -> SuperAdmin: Show confirmation message
+
+== Analytics and Reporting Flow ==
+SuperAdmin -> Website: Access Analytics Dashboard
+Website -> Database: Fetch analytics data
+Database --> Website: Return analytics data
+Website -> SuperAdmin: Display sales, user behavior, and SEO data
+SuperAdmin -> Website: Filter and view specific reports
+
+== System Settings Management Flow ==
+SuperAdmin -> Website: Access System Settings
+Website -> Database: Retrieve current settings
+Database --> Website: Return settings data
+SuperAdmin -> Website: Modify system settings (e.g., website theme, permissions)
+Website -> Database: Save updated settings
+Database --> Website: Confirm setting update
+Website -> SuperAdmin: Display success confirmation
+
+@enduml
