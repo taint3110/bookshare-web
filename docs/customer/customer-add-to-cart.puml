@@ -1,0 +1,13 @@
+@startuml
+
+== Add to Cart Flow ==
+actor Customer
+participant Website
+participant Database
+
+Customer -> Website: Select variant and add to cart
+Website -> Database: Update cart with selected item
+Database --> Website: Confirm cart update
+Website -> Customer: Show updated cart information
+
+@enduml

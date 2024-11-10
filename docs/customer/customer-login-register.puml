@@ -1,0 +1,13 @@
+@startuml
+
+' Login/Register Flow
+actor Customer
+participant Website
+participant AuthService
+
+Customer -> Website: Enter email & password / Google login
+Website -> AuthService: Send credentials for verification
+AuthService --> Website: Return success/failure
+Website -> Customer: Redirect to dashboard/homepage (if success)
+
+@enduml
