@@ -11,7 +11,8 @@ const AuthenticationLayout = (props: IAuthenticationLayoutProps) => {
   return (
     <>
       <Head>
-        <title>{title || 'MarketNest'}</title>
+        <title>{title || 'HomeRoom'}</title>
+        <link rel="icon" href="/favicon_black.png" />
       </Head>
       <main>{children}</main>
     </>

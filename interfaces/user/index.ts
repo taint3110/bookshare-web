@@ -11,6 +11,7 @@ export interface IUser {
   phoneNumber?: string
   password?: string
   lastSignInAt?: Date
+  sendInvitationEmailCount?: number
   sendVerificationEmailCount?: number
   isEmailVerified?: boolean
   newPassword?: string

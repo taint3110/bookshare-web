@@ -8,9 +8,12 @@ export interface IServerError {
 
 export enum ETokenKey {
   WEBSITE_ACCESS_TOKEN = 'userToken',
+  OWNER_ACCESS_TOKEN = 'ownerUserToken',
+  CMS_ACCESS_TOKEN = 'cmsUserToken'
 }
 
 export enum PLATFORM {
+  CMS = 'cms',
   WEBSITE = 'website'
 }
 
@@ -26,6 +29,7 @@ export enum ServerErrorMessage {
   PASSWORD_INVALID = 'Password is not valid',
   USER_NOT_FOUND = 'User not found',
   PASSWORD_CONFIRM_INVALID = 'New password and confirm password is not match',
+  JWT_EXPIRED = 'Error verifying token : jwt expired',
   UNAVAILABLE_USER = 'Error verifying token : unavailable user.',
   EMAIL_FORMAT = 'should match format "email"'
 }

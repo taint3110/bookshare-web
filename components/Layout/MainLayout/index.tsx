@@ -1,7 +1,8 @@
-import Footer from 'components/Layout/Footer'
-import Header from 'components/Layout/Header'
+import Footer from 'components/Footer'
+import Header from 'components/Header'
 import { observer } from 'mobx-react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 
 interface IMainLayoutProps {
@@ -10,17 +11,22 @@ interface IMainLayoutProps {
 }
 
 const MainLayout = (props: IMainLayoutProps) => {
-  const { title, children } = props
+  const {
+    title,
+    children,
+  } = props
+  const router = useRouter()
 
   return (
     <>
       <Head>
-        <title>{title || 'MarketNest'}</title>
+        <title>{title || 'BookShare'}</title>
+        <link rel="icon" href="/favicon_black.png" />
       </Head>
       <Header />
       <main>{children}</main>
       <Footer.Desktop />
-      <Footer.Mobile />
+      <Footer.Mobile  />
     </>
   )
 }

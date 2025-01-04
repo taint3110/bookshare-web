@@ -13,7 +13,13 @@ import {
   Tooltip
 } from '@chakra-ui/react'
 import Icon from 'components/Icon'
-import { EMAIL_PATTERN, NAME_WITH_NUMBER_PATTERN } from 'constants/common'
+import {
+  EMAIL_PATTERN,
+  MONTHLY_INCOME_PATTERN,
+  NAME_WITH_NUMBER_PATTERN,
+  RAW_PHONE_NUMBER_PATTERN,
+  ZIP_CODE_PATTERN
+} from 'constants/common'
 import get from 'lodash/get'
 import startCase from 'lodash/startCase'
 import { ReactNode } from 'react'
@@ -69,6 +75,7 @@ const FormItem = (props: IFormItemProps) => {
   switch (name) {
     case 'firstName':
     case 'lastName':
+    case 'previousLandlordName':
       //*INFO: validate name, allow only letters, spaces, special characters like - ' and not allow icon
       pattern = {
         value: NAME_WITH_NUMBER_PATTERN,
@@ -76,6 +83,7 @@ const FormItem = (props: IFormItemProps) => {
       }
       break
     case 'email':
+    case 'previousLandlordEmail':
       pattern = { value: EMAIL_PATTERN, message: 'Please enter a valid email' }
       break
     case 'dateOfBirth':
@@ -83,6 +91,30 @@ const FormItem = (props: IFormItemProps) => {
       pattern = {
         value: /^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$/,
         message: 'Please enter a valid date'
+      }
+      break
+    case 'zipCode':
+      pattern = {
+        value: ZIP_CODE_PATTERN,
+        message: 'Please enter a valid zip code'
+      }
+      break
+    case 'vrTourUrl':
+      pattern = {
+        value: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+        message: 'Invalid URL'
+      }
+      break
+    case 'monthlyIncome':
+      pattern = {
+        value: MONTHLY_INCOME_PATTERN,
+        message: 'Please enter a valid monthly income'
+      }
+      break
+    case 'previousLandlordPhoneNumber':
+      pattern = {
+        value: RAW_PHONE_NUMBER_PATTERN,
+        message: 'Please enter a valid phone number'
       }
       break
     default:
