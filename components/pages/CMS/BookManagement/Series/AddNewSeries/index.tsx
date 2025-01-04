@@ -48,7 +48,7 @@ const AddNewSeries = () => {
     spinnerStore.showLoading()
     try {
       const formattedData = {
-        ...omit(data, 'series'),
+        ...omit(data, 'series', 'formMedia'),
         title: data?.title || '',
         author: mapAuthor(String(data?.author)),
         description: data?.description || '',
