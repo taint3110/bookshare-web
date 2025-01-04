@@ -20,3 +20,7 @@ export function getAvailableDates(
 export function goToBookAddNewPage(): void {
   router.push(`${routes.cms.bookManagement.book.addNew.value}`)
 }
+
+export function goToBookDetail(id: string): void {
+  router.push(`${routes.detail.value(id)}`)
+}

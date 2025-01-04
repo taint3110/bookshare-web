@@ -9,8 +9,9 @@ import { useStores } from 'hooks/useStores'
 import { IOrder } from 'interfaces/order'
 import { capitalize } from 'lodash'
 import omit from 'lodash/omit'
+import { observer } from 'mobx-react'
 import { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { toast } from 'react-toastify'
 export interface ICartUserInfoProps {
   order: IOrder
@@ -26,21 +27,26 @@ const CartUserInfo = (props: ICartUserInfoProps) => {
   const {
     handleSubmit,
     reset,
-    formState: { isSubmitting }
+    control,
+    formState: { isSubmitting },
+    getValues
   } = methods
   const { authStore } = useStores()
   const { user } = authStore
   const [orderStatus, setOrderStatus] = useState<EOrderStatusEnum>(order?.orderStatus ?? EOrderStatusEnum.NEW)
+  const formRentLength = useWatch({ control, name: 'formRentLength', defaultValue: 1 })
 
   async function onSubmit(data: IOrder): Promise<void> {
     try {
       spinnerStore.showLoading
       const formattedData: IOrder = {
-        ...omit(data, 'formUserName', 'formStatus', 'formRentLength', 'totalPrice'),
-        rentLength: Number(data?.formRentLength?.value),
-        orderStatus: EOrderStatusEnum.ORDERED
+        ...omit(data, 'formUserName', 'formStatus', 'formRentLength'),
+        rentLength: Number(formRentLength?.value),
+        orderStatus: EOrderStatusEnum.ORDERED,
+        totalPrice: Number(data?.totalPrice) * Number(formRentLength?.value),
       }
       await websiteOrderStore.updateOrder(formattedData)
+      setOrderStatus(EOrderStatusEnum.ORDERED)
       toast.success('Place order successfully!')
     } catch (error) {
       toast.error('Place order failed!')
@@ -53,6 +59,9 @@ const CartUserInfo = (props: ICartUserInfoProps) => {
   useEffect(() => {
     reset(order)
   }, [order])
+  console.log(order?.totalPrice)
+  console.log(formRentLength)
+  // console.log(`${Number(order?.totalPrice) * Number(order?.rentLength)} USD`)
 
   return (
     <FormProvider {...methods}>
@@ -78,7 +87,7 @@ const CartUserInfo = (props: ICartUserInfoProps) => {
               <Text as={'b'}>Total:</Text>
               <HStack spacing={4}>
                 <Text fontSize="lg" as={'b'} color={'teal.500'}>
-                  {`${order?.totalPrice} USD`}
+                  {`${Number(order?.totalPrice) * Number(formRentLength?.value ?? 1)} USD`}
                 </Text>
               </HStack>
             </HStack>
@@ -101,4 +110,4 @@ const CartUserInfo = (props: ICartUserInfoProps) => {
   )
 }
 
-export default CartUserInfo
+export default observer(CartUserInfo)

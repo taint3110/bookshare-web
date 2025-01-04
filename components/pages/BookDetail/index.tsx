@@ -18,7 +18,7 @@ import BookListNoFilter from 'components/BookListNoFilter'
 import { useStores } from 'hooks/useStores'
 import { IBook, IBookWithRelations } from 'interfaces/book'
 import { ICategory } from 'interfaces/category'
-import { get } from 'lodash'
+import { get, omit } from 'lodash'
 import { observer } from 'mobx-react'
 import { useRouter } from 'next/router'
 import ErrorNotFoundPage from 'pages/404'
@@ -30,12 +30,18 @@ import { formatDate, formatText, getQueryValue, getValidArray } from 'utils/comm
 import Paragraph from './FadedParagraph'
 import { EBookConditionEnum, EBookStatusEnum } from 'enums/book'
 import dayjs from 'dayjs'
+import { toast } from 'react-toastify'
+import routes from 'routes'
+import { PLATFORM } from 'API/constants'
 
 const BookDetail = () => {
   const { websiteBookStore, spinnerStore } = useStores()
   const { isLoading } = spinnerStore
   const { bookDetail, websiteBookList, titleFilter } = websiteBookStore
   const router = useRouter()
+  const { authStore, websiteOrderStore } = useStores()
+  const { currentOrder } = websiteOrderStore
+  const { user } = authStore
   const bookId: string = String(get(router, 'query.id', ''))
   const [pageSize, setPageSize] = useState<number>(Number(router.query.pageSize) || 10)
   const pageIndex: number = getQueryValue(router, 'page', 1)
@@ -44,6 +50,7 @@ const BookDetail = () => {
   const [orderBy, setOrderBy] = useState(1)
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
   const isMobile: boolean = useMediaQuery({ maxWidth: maxMobileWidth })
+  const [currentBookStatus, setCurrentBookStatus] = useState<EBookStatusEnum>(EBookStatusEnum.AVAILABLE)
   const isTabletMobile: boolean = useMediaQuery({ maxWidth: maxTabletWidth })
 
   useEffect(() => {
@@ -114,12 +121,52 @@ const BookDetail = () => {
       spinnerStore.hideLoading()
     }
   }
+
+  async function orderBook(): Promise<void> {
+    try {
+      if (currentBookStatus !== EBookStatusEnum.AVAILABLE) {
+        return
+      }
+      if (!user?.id) {
+        await authStore.getMyUser(PLATFORM.WEBSITE)
+      }
+      if (user?.id) {
+        await websiteOrderStore.fetchWebsiteOrderList({
+          where: {
+            userId: user?.id
+          }
+        })
+      } else {
+        router.push(routes.login.value)
+        return
+      }
+      if (user?.id) {
+        const orderedBook: IBookWithRelations = {
+          ...omit(bookDetail, 'categories', 'media', '_id', 'series'),
+          orderId: currentOrder?.id ?? '',
+          bookStatus: EBookStatusEnum.ORDERED,
+          updatedAt: new Date()
+        }
+        setCurrentBookStatus(EBookStatusEnum.ORDERED)
+        await websiteOrderStore.updateOrder({
+          ...currentOrder,
+          bookList: [...getValidArray(currentOrder?.bookList), orderedBook],
+          userId: user?.id
+        })
+      }
+      toast.success('Add book to Cart successfully!')
+    } catch (error) {
+      handleError(error as Error, 'components/pages/BookDetail/index.tsx', 'orderBook')
+    }
+  }
+  
   useEffect(() => {
     console.log(titleFilter)
     if (bookId) {
       fetchData()
     }
   }, [bookId, titleFilter])
+
 
   if (bookDetail) {
     if (isCollapsed) {
@@ -170,7 +217,7 @@ const BookDetail = () => {
               </TableContainer>
               <Button
                 size={'lg'}
-                // onClick={onOpen}
+                onClick={orderBook}
                 variant={bookStatus == 'available' ? 'solid' : 'flushed'}
                 isDisabled={bookStatus == 'available' ? false : true}
               >
@@ -250,7 +297,7 @@ const BookDetail = () => {
             </TableContainer>
             <Button
               size={'lg'}
-              // onClick={onOpen}
+              onClick={orderBook}
               variant={bookStatus == 'available' ? 'solid' : 'flushed'}
               isDisabled={bookStatus == 'available' ? false : true}
             >

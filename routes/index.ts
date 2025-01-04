@@ -23,7 +23,7 @@ const routes = {
     value: '/404'
   },
   detail: {
-    value: (bookId: number) => `/book-detail/${bookId}`
+    value: (bookId: string) => `/book-detail/${bookId}`
   },
   myProfile: {
     value: '/my-profile'
