@@ -1,55 +1,84 @@
-import { getWebsiteProducts } from 'API/website/product'
+import { getCMSBooks } from 'API/cms/book'
+import { getCMSCategory } from 'API/cms/category'
+import { ETokenKey, PLATFORM } from 'API/constants'
 import MainLayout from 'components/Layout/MainLayout'
 import LandingPage from 'components/pages/LandingPage'
-import { observer } from 'mobx-react'
-import { IProduct } from 'interfaces/product'
+import { useStores } from 'hooks/useStores'
+import { IBook } from 'interfaces/book'
 import { ICategory } from 'interfaces/category'
+import { observer } from 'mobx-react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { getAuthenticateStorageKey, getValidArray } from 'utils/common'
 
 interface IListingPageProps {
-  productList: IProduct[]
-  countProductList: number
+  bookList: IBook[]
+  countBookList: number
   categoryList: ICategory[]
-  pageSize: number | null
-  pageIndex: number | null
-  totalPages: number | null
 }
 
 const ListPage = (props: IListingPageProps) => {
-  const { productList, countProductList, categoryList, pageSize, pageIndex, totalPages } = props
+  const { bookList, countBookList, categoryList } = props
+  const { websiteBookStore, authStore } = useStores()
+  const router = useRouter()
+  useEffect(() => {
+    const token: ETokenKey = getAuthenticateStorageKey(PLATFORM.WEBSITE)
+    const userToken: string = localStorage.getItem(token) ?? sessionStorage.getItem(token) ?? ''
+    if (userToken) {
+      authStore.getMyUser(PLATFORM.WEBSITE)
+    }
+  }, [])
+
+  const { titleFilter } = websiteBookStore
+  useEffect(() => {
+    if (titleFilter) {
+      router.push({
+        query: {
+          titleFilter: titleFilter
+        }
+      })
+    } else {
+      router.push({
+        query: {}
+      })
+    }
+  }, [titleFilter])
 
   return (
-    <MainLayout title="ProductShare | Landing Page">
-      <LandingPage
-        productList={productList}
-        countProductList={countProductList}
-        categoryList={categoryList}
-        pageSize={pageSize}
-        pageIndex={pageIndex}
-        totalPages={totalPages}
-      />
+    <MainLayout title="BookShare | Landing Page">
+      <LandingPage bookList={bookList} categoryList={categoryList} countBookList={countBookList} />
     </MainLayout>
   )
 }
 
 export default observer(ListPage)
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: { query: any }) {
   try {
-    const { products, categories } = await getWebsiteProducts()
+    const [bookList, categoryList] = await Promise.all([
+      getCMSBooks({
+        include: ['media'],
+        where: {
+          title: context?.query?.titleFilter ?? ''
+        },
+        // sort bookStatus available first
+        order: ['bookStatus ASC']
+      }),
+      getCMSCategory({
+        include: ['media']
+      })
+    ])
     return {
       props: {
-        productList: products.results,
-        countProductList: products.count,
-        categoryList: categories,
-        pageSize: products.pageSize,
-        pageIndex: products.pageIndex,
-        totalPages: products.totalPages
+        bookList: getValidArray(bookList?.results),
+        countBookList: bookList?.totalCount ?? 0,
+        categoryList
       }
     }
   } catch (error) {
     console.log('listing-page: getServerSideProps -> error', error)
     return {
-      props: { productList: [], countProductList: 0, categoryList: [], pageSize: 0, pageIndex: 0, totalPages: 0 }
+      props: { bookList: [], countBookList: 0, categoryList: {}, metroList: [], isEntireHouse: false }
     }
   }
 }

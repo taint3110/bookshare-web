@@ -1,11 +1,10 @@
 export enum EAccountType {
   CUSTOMER = 'customer',
   STAFF = 'staff',
-  USER = 'user'
+  APPLICANT = 'applicant'
 }
 
 export enum ERole {
-  ADMIN = 'admin',
-  USER = 'user',
-  SHOPKEEPER = 'shopkeeper'
+  GOD = 'god',
+  USER = 'user'
 }

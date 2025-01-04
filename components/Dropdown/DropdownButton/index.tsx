@@ -1,11 +1,11 @@
+import { useRef, useState, LegacyRef, useEffect } from 'react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { Button, MenuButton, useOutsideClick } from '@chakra-ui/react'
-import { IProductFilterItem } from 'interfaces/listing'
-import { LegacyRef, useEffect, useRef, useState } from 'react'
-import { MinWidth, Token, Width } from 'types/chakra'
+import { Token, MinWidth, Width } from 'types/chakra'
+import { IRoomFilterItem } from 'interfaces/listing'
 
 interface IDropdownButtonProps {
-  item?: IProductFilterItem
+  item?: IRoomFilterItem
   placeHolder?: string
   isOpen: boolean
   minWidth?: Token<MinWidth | number, 'sizes'>

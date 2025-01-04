@@ -1,4 +1,4 @@
-import adminRoutes from './admin'
+import cmsRoutes from './cms'
 
 const routes = {
   home: {
@@ -14,18 +14,24 @@ const routes = {
     value: '/forgot-password'
   },
   resetPassword: {
-    value: '/reset-password'
+    value: (resetPasswordToken: string) => `/reset-password/${resetPasswordToken}`
+  },
+  about: {
+    value: '/about'
   },
   notfoundpage: {
     value: '/404'
   },
   detail: {
-    value: (productId: number) => `/detail/${productId}`
+    value: (bookId: number) => `/book-detail/${bookId}`
   },
   myProfile: {
     value: '/my-profile'
   },
-  ...adminRoutes
+  ownAHomeRoom: {
+    value: '/own-home-room'
+  },
+  ...cmsRoutes
 }
 
 export default routes

@@ -1,3 +1,4 @@
+export const ZIP_CODE_PATTERN: RegExp = /(^\d{4,5}$)|(^\d{5}-\d{4}$)/
 export const PHONE_NUMBER_PATTERN: RegExp = /^\(\d{3}\) \d{3}-\d{4}$/
 export const RAW_PHONE_NUMBER_PATTERN: RegExp = /^\+?1?\s*\(?-*\.*(\d{3})\)?\.*-*\s*(\d{3})\.*-*\s*(\d{4})$/
 export const NAME_PATTERN: RegExp = /^[a-zA-Z\u00C0-\u017F\s-']+$/
@@ -9,6 +10,8 @@ export const NAME_WITH_NUMBER_PATTERN: RegExp = /^[a-zA-Z0-9\u00C0-\u017F\s-']+$
 //* INFO: validate password: upper and lower case letters, at least 8 characters and must contain digits
 export const PASSWORD_PATTERN: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 //* INFO: validate income: allow currency characters $ at the beginning of the string or not and allow decimal numbers with any digits after the decimal point
+export const MONTHLY_INCOME_PATTERN: RegExp = /^(\$)?(\d+)(\.\d+)?$/
+//*INFO: validate day: between 1 and 31
 export const DAY_PATTERN: RegExp = /^(0[1-9]|[12][0-9]|3[01])$/
 //*INFO: validate month: between 1 and 12
 export const MONTH_PATTERN: RegExp = /^(0[1-9]|1[012])$/

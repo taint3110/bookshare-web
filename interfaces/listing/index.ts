@@ -1,4 +1,4 @@
-export interface IProductFilterItem {
+export interface IRoomFilterItem {
   title: string
   value?: string | number
 }

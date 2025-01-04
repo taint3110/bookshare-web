@@ -1,15 +1,31 @@
 import AuthStore from './authStore'
+import CMSBookStore from './cms/cmsBookStore'
+import CMSCategoryStore from './cms/cmsCategoryStore'
+import CMSOrderStore from './cms/cmsOrderStore'
+import CMSSeriesStore from './cms/cmsSeriesStore'
 import SpinnerStore from './spinnerStore'
-import { WebsiteProductStore } from './website/websiteProductStore'
-
+import { WebsiteBookStore } from './website/websiteBookStore'
+import { WebsiteOrderStore } from './website/websiteOrderStore'
+;``
 export class RootStore {
   spinnerStore: SpinnerStore
   authStore: AuthStore
-  websiteProductStore: WebsiteProductStore
+  cmsBookStore: CMSBookStore
+  cmsSeriesStore: CMSSeriesStore
+  cmsCategoryStore: CMSCategoryStore
+  cmsOrderStore: CMSOrderStore
+  websiteBookStore: WebsiteBookStore
+  websiteOrderStore: WebsiteOrderStore
+
   constructor() {
     this.spinnerStore = new SpinnerStore(this)
     this.authStore = new AuthStore(this)
-    this.websiteProductStore = new WebsiteProductStore(this)
+    this.cmsBookStore = new CMSBookStore(this)
+    this.cmsSeriesStore = new CMSSeriesStore(this)
+    this.cmsCategoryStore = new CMSCategoryStore(this)
+    this.cmsOrderStore = new CMSOrderStore(this)
+    this.websiteBookStore = new WebsiteBookStore(this)
+    this.websiteOrderStore = new WebsiteOrderStore(this)
   }
 }
 
