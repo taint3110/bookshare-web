@@ -7,7 +7,7 @@ import { getAuthenticateStorageKey } from 'utils/common'
 import { ETokenKey, IServerError, PLATFORM, ServerErrorMessage } from './constants'
 import get from 'lodash/get'
 
-const API_URL = 'https://starfish-app-mzayt.ondigitalocean.app/'
+const API_URL = 'https://squid-app-7jubn.ondigitalocean.app/'
 
 export const api = axios.create({
   baseURL: API_URL
